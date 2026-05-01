@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chorus — The Identity Layer for the Next $124 Trillion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Inter:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans:  "Inter", system-ui, sans-serif;
+
+  --t-display: clamp(56px, 8vw, 112px);
+  --t-h1:      clamp(44px, 5vw, 72px);
+  --t-h2:      clamp(32px, 3.5vw, 48px);
+  --t-h3:      clamp(22px, 2.2vw, 28px);
+  --t-body-lg: 18px;
+  --t-body:    16px;
+  --t-small:   14px;
+  --t-label:   13px;
+  --t-eyebrow: 11px;
+
+  --cream:        #F4F1EA;
+  --warm-white:   #FAF8F4;
+  --sand:         #E8E1D6;
+  --clay:         #A89F8D;
+  --soft-black:   #1F1B16;
+  --soft-black-2: #2B2620;
+
+  --blue-primary: #8FA8C6;
+  --blue-soft:    #AFC2D9;
+  --blue-deep:    #6F8FB2;
+  --blue-tint:    rgba(143, 168, 198, 0.12);
+
+  --sage:    #4E9F5B;
+  --tomato:  #D6452D;
+  --maroon:  #7A1E1E;
+  --lemon:   #F0DFAE;
+  --pink:    #E6A1B5;
+
+  --line:         rgba(168, 159, 141, 0.18);
+  --line-strong:  rgba(168, 159, 141, 0.34);
+  --line-on-blue: rgba(31, 27, 22, 0.14);
+
+  --s-xs: 8px; --s-sm: 16px; --s-md: 24px; --s-lg: 40px;
+  --s-xl: 64px; --s-2xl: 96px; --s-3xl: 160px;
+
+  --r-sm: 12px; --r-md: 16px; --r-lg: 24px; --r-pill: 999px;
+
+  --ease:       cubic-bezier(0.32, 0.72, 0.24, 1);
+  --ease-soft:  cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --dur-fast: 280ms; --dur-normal: 480ms; --dur-slow: 720ms;
+  --dur-hero: 1200ms; --dur-loop: 6s;
+
+  --max-w: 1280px;
+  --max-w-content: 720px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--soft-black);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body { background: var(--cream); min-height: 100vh; overflow-x: hidden; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  color: var(--soft-black);
+}
+h1 { font-size: var(--t-h1); line-height: 1.05; letter-spacing: -0.025em; }
+h2 { font-size: var(--t-h2); line-height: 1.12; letter-spacing: -0.02em; }
+h3 { font-size: var(--t-h3); line-height: 1.25; letter-spacing: -0.01em; font-weight: 500; }
+
+p {
+  font-size: var(--t-body);
+  line-height: 1.65;
+  color: var(--soft-black-2);
+  max-width: 64ch;
+}
+
+a { color: var(--blue-deep); text-decoration: none; transition: color var(--dur-fast) var(--ease); }
+a:hover { color: var(--soft-black); }
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--t-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+  color: var(--clay);
+}
+
+.tnum { font-feature-settings: "tnum"; }
+
+/* ---------- NAV ---------- */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  padding: var(--s-md) var(--s-xl);
+  display: flex; justify-content: space-between; align-items: center;
+  z-index: 100;
+  transition: background var(--dur-normal) var(--ease), border-color var(--dur-normal) var(--ease);
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(244, 241, 234, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.logo {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--soft-black);
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-mark {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--blue-primary);
+  display: inline-block;
+  animation: orbit var(--dur-loop) var(--ease-soft) infinite;
+}
+@keyframes orbit {
+  0%   { transform: translate(0, 0); background: var(--blue-primary); }
+  33%  { transform: translate(2px, -2px); background: var(--blue-deep); }
+  66%  { transform: translate(-2px, 1px); background: var(--blue-soft); }
+  100% { transform: translate(0, 0); background: var(--blue-primary); }
+}
+.nav-links { display: flex; gap: var(--s-lg); align-items: center; }
+.nav-links a { color: var(--soft-black-2); font-size: var(--t-small); font-weight: 500; }
+.nav-links a:hover { color: var(--blue-deep); }
+.nav-meta { font-size: var(--t-small); color: var(--clay); }
+@media (max-width: 720px) {
+  .nav { padding: var(--s-sm) var(--s-md); }
+  .nav-links { gap: var(--s-md); }
+  .nav-links a:not(.nav-cta) { display: none; }
+}
+
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  padding: 140px var(--s-xl) var(--s-2xl);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--s-xl);
+}
+.hero-top { display: flex; flex-direction: column; gap: var(--s-md); padding-top: var(--s-lg); }
+.hero-eyebrow { opacity: 0; transform: translateY(12px); }
+.hero h1.hero-headline {
+  font-size: var(--t-display);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 14ch;
+  opacity: 0; transform: translateY(20px);
+}
+.hero-headline em { font-style: italic; color: var(--blue-deep); }
+.hero-sub {
+  font-size: var(--t-body-lg);
+  max-width: 52ch;
+  color: var(--soft-black-2);
+  opacity: 0; transform: translateY(20px);
+}
+
+.hero-bottom {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: var(--s-xl);
+}
+.hero-arrow {
+  opacity: 0; transform: translateY(20px);
+  display: flex; flex-direction: column; gap: var(--s-md);
+}
+.hero-arrow svg { display: block; animation: drift var(--dur-loop) var(--ease-soft) infinite; }
+@keyframes drift {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(6px); }
+}
+.hero-meta {
+  font-size: var(--t-small);
+  color: var(--clay);
+  display: flex; flex-direction: column; gap: 4px;
+  text-align: right;
+}
+
+.circular-cta {
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: var(--blue-primary);
+  color: var(--soft-black);
+  font-family: var(--font-serif);
+  font-size: 17px;
+  letter-spacing: -0.005em;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease);
+  animation: breathe var(--dur-loop) var(--ease-soft) infinite;
+  opacity: 0;
+  flex-shrink: 0;
+  line-height: 1.25;
+  padding: 0 var(--s-md);
+}
+.circular-cta:hover { background: var(--blue-deep); color: var(--cream); }
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.025); }
+}
+
+.hero-loaded .hero-eyebrow   { animation: rise var(--dur-hero) var(--ease) 80ms forwards; }
+.hero-loaded .hero-headline  { animation: rise var(--dur-hero) var(--ease) 240ms forwards; }
+.hero-loaded .hero-sub       { animation: rise var(--dur-hero) var(--ease) 480ms forwards; }
+.hero-loaded .hero-arrow     { animation: rise var(--dur-hero) var(--ease) 720ms forwards; }
+.hero-loaded .circular-cta   { animation: appear var(--dur-hero) var(--ease) 880ms forwards, breathe var(--dur-loop) var(--ease-soft) 1880ms infinite; }
+.hero-loaded .hero-meta      { animation: rise var(--dur-hero) var(--ease) 600ms forwards; }
+@keyframes rise   { to { opacity: 1; transform: translateY(0); } }
+@keyframes appear { to { opacity: 1; } }
+
+/* ---------- SECTIONS ---------- */
+section.block {
+  padding: var(--s-2xl) var(--s-xl);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  position: relative;
+}
+section.block + section.block { padding-top: var(--s-xl); }
+
+.section-head {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) 4fr;
+  gap: var(--s-xl);
+  align-items: start;
+  margin-bottom: var(--s-2xl);
+}
+.section-head .marker {
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum";
+  font-size: var(--t-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--clay);
+  font-weight: 500;
+  padding-top: 16px;
+  border-top: 1px solid var(--line-strong);
+}
+.section-head h2 { max-width: 18ch; }
+.section-head .lead { margin-top: var(--s-md); font-size: var(--t-body-lg); max-width: 56ch; }
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease); }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ---------- PROBLEM STATS ---------- */
+.problem {
+  background: var(--cream);
+}
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+.stat {
+  padding: var(--s-xl) var(--s-lg);
+  border-right: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: var(--s-md);
+}
+.stat:last-child { border-right: none; }
+.stat-num {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 5vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--soft-black);
+  font-feature-settings: "tnum";
+}
+.stat-num em { font-style: italic; color: var(--maroon); font-weight: 400; }
+.stat-label {
+  font-size: var(--t-small);
+  color: var(--soft-black-2);
+  max-width: 28ch;
+  line-height: 1.5;
+}
+@media (max-width: 960px) {
+  .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+}
+@media (max-width: 560px) {
+  .stat-grid { grid-template-columns: 1fr; }
+  .stat { border-right: none !important; border-bottom: 1px solid var(--line); }
+  .stat:last-child { border-bottom: none; }
+}
+
+.pain-callout {
+  margin-top: var(--s-2xl);
+  padding: var(--s-xl);
+  background: var(--warm-white);
+  border-radius: var(--r-lg);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--s-xl);
+  align-items: start;
+}
+.pain-callout .label { color: var(--maroon); font-size: var(--t-eyebrow); text-transform: uppercase; letter-spacing: 0.16em; font-weight: 500; }
+.pain-callout h3 { margin-top: var(--s-sm); max-width: 14ch; }
+.pain-callout p { margin-top: var(--s-md); }
+@media (max-width: 800px) {
+  .pain-callout { grid-template-columns: 1fr; gap: var(--s-md); padding: var(--s-lg); }
+}
+
+/* ---------- PRODUCT TABS ---------- */
+.product { padding-top: var(--s-xl); }
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--line-strong);
+  margin-bottom: var(--s-xl);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  background: none;
+  border: none;
+  padding: var(--s-md) var(--s-lg) var(--s-md) 0;
+  margin-right: var(--s-xl);
+  font-family: var(--font-sans);
+  font-size: var(--t-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--clay);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+  white-space: nowrap;
+}
+.tab[aria-selected="true"] { color: var(--soft-black); border-bottom-color: var(--blue-deep); }
+.tab:hover { color: var(--soft-black); }
+
+.tab-panels { position: relative; min-height: 540px; }
+.tab-panel {
+  display: none;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--s-2xl);
+  align-items: start;
+}
+.tab-panel.active {
+  display: grid;
+  animation: panelIn var(--dur-slow) var(--ease) forwards;
+}
+@keyframes panelIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.tab-panel h3 { margin-bottom: var(--s-md); max-width: 16ch; }
+.tab-panel .panel-body p + p { margin-top: var(--s-md); }
+.panel-bullets { list-style: none; margin-top: var(--s-lg); display: flex; flex-direction: column; gap: var(--s-md); }
+.panel-bullets li {
+  font-size: var(--t-body);
+  padding-left: var(--s-md);
+  border-left: 1px solid var(--blue-deep);
+  color: var(--soft-black-2);
+  line-height: 1.6;
+}
+.panel-bullets li strong { color: var(--soft-black); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .tab-panel.active { grid-template-columns: 1fr; gap: var(--s-xl); }
+}
+
+/* ---------- PRODUCT VISUALS ---------- */
+.viz-card {
+  background: var(--warm-white);
+  border-radius: var(--r-lg);
+  padding: var(--s-xl);
+  min-height: 420px;
+  position: relative;
+  overflow: hidden;
+}
+.viz-card .viz-eyebrow {
+  font-size: var(--t-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--clay);
+  font-weight: 500;
+  margin-bottom: var(--s-lg);
+}
+
+/* Conversation transcript */
+.transcript { display: flex; flex-direction: column; gap: var(--s-md); }
+.bubble {
+  padding: var(--s-md) var(--s-lg);
+  border-radius: var(--r-lg);
+  font-size: var(--t-body);
+  line-height: 1.55;
+  max-width: 88%;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: bubbleIn var(--dur-slow) var(--ease) forwards;
+}
+.bubble.ai {
+  background: var(--cream);
+  color: var(--soft-black);
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+}
+.bubble.user {
+  background: var(--blue-primary);
+  color: var(--soft-black);
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+}
+.bubble.ai:nth-of-type(1) { animation-delay: 0ms; }
+.bubble.user:nth-of-type(2) { animation-delay: 200ms; }
+.bubble.ai:nth-of-type(3) { animation-delay: 400ms; }
+.bubble.user:nth-of-type(4) { animation-delay: 600ms; }
+.bubble.ai:nth-of-type(5) { animation-delay: 800ms; }
+.bubble .speaker { font-size: var(--t-eyebrow); text-transform: uppercase; letter-spacing: 0.16em; color: var(--clay); margin-bottom: 6px; font-weight: 500; }
+.bubble.user .speaker { color: var(--blue-deep); }
+@keyframes bubbleIn { to { opacity: 1; transform: translateY(0); } }
+
+/* Match swiper */
+.swiper {
+  position: relative;
+  height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.match-card {
+  position: absolute;
+  width: min(320px, 80%);
+  background: var(--cream);
+  border-radius: var(--r-lg);
+  padding: var(--s-lg);
+  border: 1px solid var(--line);
+  display: flex; flex-direction: column; gap: var(--s-sm);
+  cursor: grab;
+  transition: transform var(--dur-normal) var(--ease), opacity var(--dur-normal) var(--ease);
+}
+.match-card .match-tag {
+  font-size: var(--t-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--blue-deep);
+  font-weight: 500;
+}
+.match-card h4 {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  line-height: 1.2;
+}
+.match-card .match-snippet { font-size: var(--t-small); color: var(--soft-black-2); line-height: 1.55; }
+.match-card .match-fit {
+  margin-top: var(--s-sm);
+  padding-top: var(--s-sm);
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: var(--t-small);
+}
+.match-card .fit-num { font-family: var(--font-sans); font-feature-settings: "tnum"; font-weight: 500; color: var(--sage); }
+.match-card.gone { opacity: 0; pointer-events: none; }
+.swipe-controls {
+  position: absolute;
+  bottom: -60px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: var(--s-md);
+}
+.swipe-btn {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: var(--warm-white);
+  font-size: 20px;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+  color: var(--soft-black-2);
+  display: flex; align-items: center; justify-content: center;
+}
+.swipe-btn.skip:hover { background: var(--cream); color: var(--maroon); border-color: var(--maroon); }
+.swipe-btn.match:hover { background: var(--blue-primary); color: var(--soft-black); border-color: var(--blue-primary); }
+.swipe-state {
+  position: absolute;
+  top: var(--s-md);
+  right: var(--s-md);
+  font-size: var(--t-small);
+  color: var(--clay);
+  font-feature-settings: "tnum";
+}
+
+/* Narrative report */
+.report-shell {
+  background: var(--cream);
+  border-radius: var(--r-md);
+  padding: var(--s-lg);
+}
+.report-meta { display: flex; justify-content: space-between; font-size: var(--t-eyebrow); text-transform: uppercase; letter-spacing: 0.16em; color: var(--clay); font-weight: 500; padding-bottom: var(--s-md); border-bottom: 1px solid var(--line); margin-bottom: var(--s-md); }
+.report-shell h4 { font-family: var(--font-serif); font-size: 22px; line-height: 1.25; max-width: 22ch; font-weight: 400; }
+.report-shell p { font-size: var(--t-small); margin-top: var(--s-sm); line-height: 1.65; max-width: none; }
+.report-impact-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-sm);
+  margin-top: var(--s-md);
+  padding-top: var(--s-md);
+  border-top: 1px solid var(--line);
+}
+.impact-stat .impact-num { font-family: var(--font-serif); font-size: 26px; line-height: 1; color: var(--soft-black); font-feature-settings: "tnum"; }
+.impact-stat .impact-cap { font-size: 11px; color: var(--clay); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.12em; font-weight: 500; }
+
+/* ---------- IDENTITY STACK ---------- */
+.stack-section {
+  background: var(--blue-primary);
+  margin-top: var(--s-2xl);
+  padding: var(--s-3xl) var(--s-xl);
+  position: relative;
+}
+.stack-section .inner { max-width: var(--max-w); margin: 0 auto; }
+.stack-section .eyebrow { color: var(--soft-black); opacity: 0.65; }
+.stack-section h2 { color: var(--soft-black); }
+.stack-section p { color: var(--soft-black-2); }
+
+.stack {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s-md);
+  margin-top: var(--s-2xl);
+}
+.stack-step {
+  background: var(--cream);
+  border-radius: var(--r-md);
+  padding: var(--s-lg);
+  display: flex; flex-direction: column; gap: var(--s-sm);
+  position: relative;
+  min-height: 280px;
+}
+.stack-step .step-num {
+  font-family: var(--font-serif);
+  font-size: 32px;
+  font-feature-settings: "tnum";
+  color: var(--blue-deep);
+  font-weight: 400;
+  line-height: 1;
+}
+.stack-step h3 { font-size: 18px; line-height: 1.3; font-weight: 500; max-width: 18ch; }
+.stack-step .step-tech {
+  margin-top: auto;
+  padding-top: var(--s-md);
+  border-top: 1px solid var(--line);
+  font-size: var(--t-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-weight: 500;
+  color: var(--blue-deep);
+  font-family: var(--font-sans);
+}
+.stack-step p { font-size: var(--t-small); line-height: 1.6; }
+.stack-arrow {
+  position: absolute;
+  right: -22px; top: 50%;
+  transform: translateY(-50%);
+  width: 24px; height: 12px;
+  z-index: 2;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--soft-black);
+  opacity: 0.45;
+}
+.stack-step:last-child .stack-arrow { display: none; }
+@media (max-width: 1000px) {
+  .stack { grid-template-columns: repeat(2, 1fr); }
+  .stack-step:nth-child(2) .stack-arrow { display: none; }
+}
+@media (max-width: 560px) {
+  .stack { grid-template-columns: 1fr; }
+  .stack-arrow { display: none !important; }
+}
+
+/* ---------- WHY NOW ---------- */
+.whynow {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: var(--s-2xl);
+  align-items: center;
+  padding-top: var(--s-2xl);
+}
+.whynow-num {
+  font-family: var(--font-serif);
+  font-size: clamp(80px, 14vw, 220px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--soft-black);
+  font-feature-settings: "tnum";
+}
+.whynow-num .unit { color: var(--blue-deep); font-style: italic; font-size: 0.6em; vertical-align: 0.18em; }
+.whynow-copy h2 { max-width: 14ch; }
+.whynow-copy p { margin-top: var(--s-md); font-size: var(--t-body-lg); max-width: 52ch; }
+.whynow-quote {
+  margin-top: var(--s-lg);
+  padding: var(--s-lg);
+  background: var(--lemon);
+  border-radius: var(--r-md);
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--soft-black);
+  max-width: 52ch;
+}
+@media (max-width: 900px) {
+  .whynow { grid-template-columns: 1fr; gap: var(--s-xl); }
+  .whynow-num { text-align: left; }
+}
+
+/* ---------- TEAM ---------- */
+.team {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-md);
+  margin-top: var(--s-2xl);
+}
+.team-card {
+  background: var(--warm-white);
+  border-radius: var(--r-lg);
+  padding: var(--s-xl);
+  min-height: 260px;
+  display: flex; flex-direction: column; gap: var(--s-md);
+}
+.team-card .role { font-size: var(--t-eyebrow); text-transform: uppercase; letter-spacing: 0.16em; color: var(--clay); font-weight: 500; }
+.team-card h3 { font-size: 28px; font-weight: 400; max-width: 18ch; }
+.team-card p { margin-top: auto; font-size: var(--t-small); line-height: 1.6; }
+@media (max-width: 720px) { .team { grid-template-columns: 1fr; } }
+
+/* ---------- FOOTER CTA ---------- */
+.foot-cta {
+  background: var(--soft-black);
+  color: var(--cream);
+  padding: var(--s-3xl) var(--s-xl);
+  margin-top: var(--s-3xl);
+}
+.foot-cta .inner { max-width: var(--max-w); margin: 0 auto; display: grid; grid-template-columns: 7fr 5fr; gap: var(--s-2xl); align-items: end; }
+.foot-cta .eyebrow { color: var(--clay); }
+.foot-cta h2 { color: var(--cream); max-width: 16ch; }
+.foot-cta p { color: rgba(244, 241, 234, 0.7); font-size: var(--t-body-lg); max-width: 48ch; margin-top: var(--s-md); }
+.foot-cta .cta-actions { display: flex; flex-direction: column; gap: var(--s-md); align-items: flex-start; }
+.btn-primary {
+  display: inline-block;
+  padding: 18px 32px;
+  border-radius: var(--r-pill);
+  background: var(--cream);
+  color: var(--soft-black);
+  font-size: var(--t-body);
+  font-weight: 500;
+  font-family: var(--font-sans);
+  border: none;
+  cursor: pointer;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.btn-primary:hover { background: var(--blue-primary); color: var(--soft-black); }
+.btn-tertiary {
+  font-family: var(--font-sans);
+  font-size: var(--t-small);
+  color: var(--clay);
+  background: none; border: none; cursor: pointer;
+  padding: 0;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.btn-tertiary:hover { color: var(--cream); }
+@media (max-width: 800px) {
+  .foot-cta .inner { grid-template-columns: 1fr; }
+  .foot-cta { padding: var(--s-2xl) var(--s-md); }
+}
+
+/* ---------- COLOPHON ---------- */
+.colophon {
+  background: var(--soft-black);
+  color: var(--clay);
+  padding: var(--s-md) var(--s-xl) var(--s-lg);
+  border-top: 1px solid rgba(244, 241, 234, 0.08);
+  font-size: var(--t-small);
+  display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: var(--s-sm);
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .hero { padding: 110px var(--s-md) var(--s-xl); }
+  .hero-bottom { grid-template-columns: 1fr; gap: var(--s-lg); }
+  .hero-bottom .circular-cta { justify-self: start; }
+  section.block { padding: var(--s-xl) var(--s-md); }
+  .section-head { grid-template-columns: 1fr; gap: var(--s-md); }
+  .section-head .marker { padding-top: 12px; }
+  .stack-section { padding: var(--s-2xl) var(--s-md); }
+  .pain-callout { padding: var(--s-lg); }
+  .nav { padding: var(--s-sm) var(--s-md); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="logo">
+    <span class="logo-mark"></span>
+    <span>Chorus</span>
+  </div>
+  <div class="nav-links">
+    <a href="#problem">Problem</a>
+    <a href="#product">Product</a>
+    <a href="#stack">Stack</a>
+    <a href="#whynow">Why Now</a>
+    <span class="nav-meta">v1.0 · PRD</span>
+  </div>
+</nav>
+
+<!-- ============= HERO ============= -->
+<header class="hero">
+  <div class="hero-top">
+    <div class="hero-eyebrow eyebrow">Product Requirements · Pitch</div>
+    <h1 class="hero-headline">The identity layer<br/>for the next <em>$124 trillion.</em></h1>
+    <p class="hero-sub">An operating system for intentional capital — turning values from static checkboxes into a dynamic narrative that moves money the way a human actually wants to wield it.</p>
+  </div>
+
+  <div class="hero-bottom">
+    <div class="hero-arrow">
+      <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 20 L110 20" stroke="#1F1B16" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M96 8 L114 20 L96 32" stroke="#1F1B16" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+      <div class="hero-meta">Discover · Match · Playback</div>
+    </div>
+
+    <div class="circular-cta" onclick="document.getElementById('problem').scrollIntoView({behavior:'smooth'})">
+      Begin the<br/>walkthrough →
+    </div>
+  </div>
+</header>
+
+<!-- ============= PROBLEM ============= -->
+<section class="block problem" id="problem">
+  <div class="section-head">
+    <div class="marker reveal">01 — The Problem</div>
+    <div>
+      <h2 class="reveal">The discovery desert.</h2>
+      <p class="lead reveal">DAF capital is the most flexible money on earth — already given, irrevocable, free to take risk. And yet 99% of it sits in index funds, governed by the risk posture of a retirement account.</p>
+    </div>
+  </div>
+
+  <div class="stat-grid reveal">
+    <div class="stat">
+      <div class="stat-num"><em>$5T</em></div>
+      <div class="stat-label">sits dormant in Donor-Advised Funds, often invested in instruments that contradict the donor's mission.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">84%</div>
+      <div class="stat-label">of DAF holders want to make impact investments — but lack the tools to bridge intent and execution.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">55%</div>
+      <div class="stat-label">of heirs fire their parents' financial advisors. The advisors cannot speak the language of care.</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">99%</div>
+      <div class="stat-label">of onboarding still relies on SDG and ESG checkboxes. Reductive, robotic, and untrue to lived experience.</div>
+    </div>
+  </div>
+
+  <div class="pain-callout reveal">
+    <div>
+      <div class="label">The Playground Paradox</div>
+      <h3>Already given. Still hoarded.</h3>
+    </div>
+    <p>The capital has already left the donor's estate. There is no downside to deploying it boldly — yet the surrounding infrastructure (compliance, advisors, onboarding flows) treats it like retirement savings. We replace that infrastructure with something built for the work the capital was meant to do.</p>
+  </div>
+</section>
+
+<!-- ============= PRODUCT ============= -->
+<section class="block product" id="product">
+  <div class="section-head">
+    <div class="marker reveal">02 — The Product</div>
+    <div>
+      <h2 class="reveal">Discover. Match. Playback.</h2>
+      <p class="lead reveal">Three layers, one continuous loop. The investor's identity is the input, the engine, and the output — refining itself with every action.</p>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-panel="discover">I · Discover</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="match">II · Match</button>
+      <button class="tab" role="tab" aria-selected="false" data-panel="playback">III · Playback</button>
+    </div>
+
+    <div class="tab-panels">
+      <!-- DISCOVER -->
+      <div class="tab-panel active" id="panel-discover">
+        <div class="panel-body">
+          <div class="eyebrow" style="margin-bottom: var(--s-md)">The Intelligence Layer</div>
+          <h3>An insightful mirror, not a survey.</h3>
+          <p>An AI-led conversation that probes for latent values, surfaces contradictions, and adapts its vocabulary to the user's financial literacy in real time. No branching logic — only listening.</p>
+          <ul class="panel-bullets">
+            <li><strong>Beyond stated preferences.</strong> The model probes for emotional baselines and the power relationships an investor wants to shift.</li>
+            <li><strong>Dual output.</strong> An evocative <em>Investor Playbook</em> for humans, and a structured <em>Investment Policy Statement</em> for advisors.</li>
+            <li><strong>Always living.</strong> Every edit by the user updates the underlying vector representation.</li>
+          </ul>
+        </div>
+        <div class="viz-card">
+          <div class="viz-eyebrow">Discovery Session — Live Transcript</div>
+          <div class="transcript">
+            <div class="bubble ai">
+              <div class="speaker">Chorus</div>
+              You said you care about housing. Tell me about a moment that made you feel that — not the data, the moment.
+            </div>
+            <div class="bubble user">
+              <div class="speaker">Investor</div>
+              When my brother couldn't move his family out of the building they were priced out of. I felt useless.
+            </div>
+            <div class="bubble ai">
+              <div class="speaker">Chorus</div>
+              So this is about agency, not affordability. Would you fund a tenant-equity model even if it returned less than market?
+            </div>
+            <div class="bubble user">
+              <div class="speaker">Investor</div>
+              Yes. As long as the equity actually transfers.
+            </div>
+            <div class="bubble ai">
+              <div class="speaker">Chorus</div>
+              Noted. I'll mark that as a non-negotiable in your Playbook — you'll see it surface in matching.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MATCH -->
+      <div class="tab-panel" id="panel-match">
+        <div class="panel-body">
+          <div class="eyebrow" style="margin-bottom: var(--s-md)">The Engine</div>
+          <h3>An ML marketplace that reads intent, not keywords.</h3>
+          <p>The investor's profile becomes a high-dimensional embedding. Funds, ventures, and peer communities live in the same vector space. Match is semantic — the system understands <em>why</em>, not just <em>what</em>.</p>
+          <ul class="panel-bullets">
+            <li><strong>Swipe-to-match UX.</strong> Every interaction feeds the model. High-frequency, low-friction signal.</li>
+            <li><strong>Drift detection.</strong> When actions diverge from the Playbook, Chorus surfaces the contradiction — and offers to refine.</li>
+            <li><strong>Peer matching.</strong> Other humans with adjacent embeddings. Capital travels in cohorts.</li>
+          </ul>
+        </div>
+        <div class="viz-card">
+          <div class="viz-eyebrow">Match Surface — Try it</div>
+          <div class="swipe-state" id="swipe-state">3 of 3</div>
+          <div class="swiper" id="swiper">
+            <div class="match-card" data-i="2">
+              <div class="match-tag">Peer Cohort</div>
+              <h4>Roots Collective — 12 women-led DAFs</h4>
+              <div class="match-snippet">A learning community pooling capital toward Indigenous-led land trusts. Quarterly co-investment cycles.</div>
+              <div class="match-fit"><span>Fit signal</span><span class="fit-num">87%</span></div>
+            </div>
+            <div class="match-card" data-i="1">
+              <div class="match-tag">Venture · Seed</div>
+              <h4>Liber Co-op — Tenant equity in Brooklyn</h4>
+              <div class="match-snippet">Acquires multi-family buildings; transfers ownership to tenant collectives over 8 years. Below-market return.</div>
+              <div class="match-fit"><span>Fit signal</span><span class="fit-num">92%</span></div>
+            </div>
+            <div class="match-card" data-i="0">
+              <div class="match-tag">Fund · Impact</div>
+              <h4>Fairmount Housing Catalyst Fund III</h4>
+              <div class="match-snippet">$80M concessionary capital pool funding tenant-equity acquisitions across Northeast US.</div>
+              <div class="match-fit"><span>Fit signal</span><span class="fit-num">94%</span></div>
+            </div>
+            <div class="swipe-controls">
+              <button class="swipe-btn skip" data-action="skip" aria-label="Skip">✕</button>
+              <button class="swipe-btn match" data-action="match" aria-label="Match">♥</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PLAYBACK -->
+      <div class="tab-panel" id="panel-playback">
+        <div class="panel-body">
+          <div class="eyebrow" style="margin-bottom: var(--s-md)">The Narrative Layer</div>
+          <h3>Reporting that closes the loop.</h3>
+          <p>We translate complex impact data back into the investor's own language. Whether they speak in IRRs or in lived stakes, the playback meets them where their <em>"why"</em> lives.</p>
+          <ul class="panel-bullets">
+            <li><strong>Personal vocabulary.</strong> The same data renders three ways — for a VC, a first-time philanthropist, or a family member.</li>
+            <li><strong>Non-financial proof.</strong> Power transferred. Tenants housed. Practitioners funded. Surfaced alongside IRR.</li>
+            <li><strong>Quarterly rituals.</strong> Reporting that invites reflection, not just review.</li>
+          </ul>
+        </div>
+        <div class="viz-card">
+          <div class="viz-eyebrow">Quarterly Playback — Sample</div>
+          <div class="report-shell">
+            <div class="report-meta"><span>Q3 2026</span><span>For: Investor</span></div>
+            <h4>Three buildings stayed in the hands of the families who lived there.</h4>
+            <p>Your $250K stake in Liber Co-op closed two acquisitions in Crown Heights this quarter. 47 households are now four years closer to collective ownership. The capital-stack design you flagged in your Playbook — full equity transfer, not partial — held.</p>
+            <div class="report-impact-row">
+              <div class="impact-stat"><div class="impact-num">47</div><div class="impact-cap">Households retained</div></div>
+              <div class="impact-stat"><div class="impact-num">3</div><div class="impact-cap">Buildings acquired</div></div>
+              <div class="impact-stat"><div class="impact-num">5.4%</div><div class="impact-cap">IRR · concessionary</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= IDENTITY STACK ============= -->
+<section class="stack-section reveal" id="stack">
+  <div class="inner">
+    <div class="section-head">
+      <div class="marker reveal" style="color: var(--soft-black); opacity: 0.65;">03 — Technical Approach</div>
+      <div>
+        <h2 class="reveal">The Identity Stack.</h2>
+        <p class="lead reveal" style="color: var(--soft-black-2);">Four layers, end to end. From spoken word to vector embedding to surfaced match — and back into a living document the investor can keep editing.</p>
+      </div>
+    </div>
+
+    <div class="stack reveal">
+      <div class="stack-step">
+        <div class="step-num">01</div>
+        <h3>Open-ended conversation</h3>
+        <p>No forms. No branching logic. Real-time vocabulary adaptation.</p>
+        <div class="step-tech">Claude Opus 4.7</div>
+        <div class="stack-arrow">
+          <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><path d="M0 6 L20 6 M16 2 L22 6 L16 10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="stack-step">
+        <div class="step-num">02</div>
+        <h3>Six-layer JSON synthesis</h3>
+        <p>Identity · Money Psychology · Themes · Constraints · Tradeoffs · Peer Context.</p>
+        <div class="step-tech">FastAPI · Structured</div>
+        <div class="stack-arrow">
+          <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><path d="M0 6 L20 6 M16 2 L22 6 L16 10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="stack-step">
+        <div class="step-num">03</div>
+        <h3>Vectorized intent</h3>
+        <p>High-dimensional embeddings. Semantic match — not keyword overlap.</p>
+        <div class="step-tech">Voyage-3-Large</div>
+        <div class="stack-arrow">
+          <svg width="24" height="12" viewBox="0 0 24 12" fill="none"><path d="M0 6 L20 6 M16 2 L22 6 L16 10" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <div class="stack-step">
+        <div class="step-num">04</div>
+        <h3>Living document</h3>
+        <p>Every edit, every swipe, updates the embedding. The system grows with the investor.</p>
+        <div class="step-tech">Behavioral loop</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= WHY NOW ============= -->
+<section class="block" id="whynow">
+  <div class="section-head">
+    <div class="marker reveal">04 — Why Now</div>
+    <div>
+      <h2 class="reveal">The largest wealth transfer in history is also the most values-led.</h2>
+    </div>
+  </div>
+
+  <div class="whynow reveal">
+    <div class="whynow-num tnum"><span id="bigNum">0</span><span class="unit">T</span></div>
+    <div class="whynow-copy">
+      <h2>Capital that wants to <em>do something.</em></h2>
+      <p>$124 trillion is moving to a generation that views capital as a tool for change. The category has matured. The on-ramp has not.</p>
+      <div class="whynow-quote">
+        <em>"We provide the first scalable way to capture the essence of an investor — so capital can flow not just to themes, but to the specific power relationships and outcomes that define a human life."</em>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============= TEAM ============= -->
+<section class="block" id="team">
+  <div class="section-head">
+    <div class="marker reveal">05 — The Team</div>
+    <div>
+      <h2 class="reveal">Built by people who have lived in this gap.</h2>
+      <p class="lead reveal">Domain depth in DAFs and impact investing, paired with systems engineering for ethical, nuanced AI.</p>
+    </div>
+  </div>
+
+  <div class="team reveal">
+    <div class="team-card">
+      <div class="role">Founder · Domain</div>
+      <h3>Lily Louis</h3>
+      <p>Domain expert in donor-advised funds and impact investing. Previously at Ethic and DAF Commons. Has watched the codification gap from inside the institutions that built it.</p>
+    </div>
+    <div class="team-card">
+      <div class="role">Co-Founder · Engineering</div>
+      <h3>Isobel McCrum</h3>
+      <p>Systems engineering and AI ethics, formerly at Microsoft. Builds nuanced AI structures that prioritize user agency over automation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============= FOOT CTA ============= -->
+<section class="foot-cta reveal">
+  <div class="inner">
+    <div>
+      <div class="eyebrow">The Operating System for Intentional Capital</div>
+      <h2 style="margin-top: var(--s-md);">Help us build the on-ramp for the next $124 trillion.</h2>
+      <p>We are raising a pre-seed round and looking for design partners — DAFs, family offices, and impact funds who want their capital to read like a human, not a checkbox.</p>
+    </div>
+    <div class="cta-actions">
+      <button class="btn-primary" onclick="window.scrollTo({top:0,behavior:'smooth'})">Read it again</button>
+      <button class="btn-tertiary">Request the deep dive →</button>
+    </div>
+  </div>
+</section>
+
+<div class="colophon">
+  <span>Chorus · Product Requirements Document · v1.0</span>
+  <span>An interactive walkthrough · 2026</span>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // Hero entrance
+  requestAnimationFrame(() => document.querySelector('.hero').classList.add('hero-loaded'));
+
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const updateNav = () => nav.classList.toggle('scrolled', window.scrollY > 32);
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+
+  // Scroll reveals
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -8% 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Tabs
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.tab-panel');
+  tabs.forEach(t => t.addEventListener('click', () => {
+    tabs.forEach(x => x.setAttribute('aria-selected', 'false'));
+    panels.forEach(x => x.classList.remove('active'));
+    t.setAttribute('aria-selected', 'true');
+    const panel = document.getElementById('panel-' + t.dataset.panel);
+    panel.classList.add('active');
+
+    // Re-trigger transcript animation when discover panel opens
+    if (t.dataset.panel === 'discover') {
+      panel.querySelectorAll('.bubble').forEach(b => {
+        b.style.animation = 'none';
+        b.offsetHeight;
+        b.style.animation = '';
+      });
+    }
+  }));
+
+  // Big number counter for $124T
+  const bigNum = document.getElementById('bigNum');
+  let started = false;
+  const numIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !started) {
+        started = true;
+        const target = 124;
+        const duration = 1800;
+        const start = performance.now();
+        const tick = (now) => {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const v = Math.round(eased * target);
+          bigNum.textContent = '$' + v;
+          if (t < 1) requestAnimationFrame(tick);
+          else bigNum.textContent = '$124';
+        };
+        requestAnimationFrame(tick);
+      }
+    });
+  }, { threshold: 0.4 });
+  numIO.observe(document.querySelector('.whynow-num'));
+
+  // Stat number counters
+  const statNums = document.querySelectorAll('.stat-num');
+  const statIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        if (el.dataset.animated) return;
+        el.dataset.animated = '1';
+        const original = el.innerHTML;
+        const match = el.textContent.match(/(\$?)(\d+)(T|%)?/);
+        if (!match) return;
+        const prefix = match[1];
+        const target = parseInt(match[2], 10);
+        const suffix = match[3] || '';
+        const isEm = original.includes('<em>');
+        const duration = 1100;
+        const start = performance.now();
+        const tick = (now) => {
+          const t = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - t, 3);
+          const v = Math.round(eased * target);
+          const inner = prefix + v + suffix;
+          el.innerHTML = isEm ? '<em>' + inner + '</em>' : inner;
+          if (t < 1) requestAnimationFrame(tick);
+          else el.innerHTML = original;
+        };
+        requestAnimationFrame(tick);
+        statIO.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(n => statIO.observe(n));
+
+  // Swipe-to-match
+  const swiper = document.getElementById('swiper');
+  const swipeState = document.getElementById('swipe-state');
+  if (swiper) {
+    const cards = Array.from(swiper.querySelectorAll('.match-card'));
+    let remaining = cards.length;
+    const updateState = () => {
+      if (remaining === 0) {
+        swipeState.textContent = 'You matched. Profile updating…';
+        const done = document.createElement('div');
+        done.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--font-serif);font-size:22px;color:var(--soft-black);text-align:center;padding:var(--s-lg);';
+        done.innerHTML = 'Your Playbook just learned <em style="color:var(--blue-deep)">three new things</em> about you.';
+        swiper.appendChild(done);
+      } else {
+        swipeState.textContent = remaining + ' of ' + cards.length;
+      }
+    };
+    const swipe = (direction) => {
+      const top = cards.find(c => !c.classList.contains('gone') && parseInt(c.dataset.i,10) === remaining - 1);
+      if (!top) return;
+      top.style.transform = direction === 'match'
+        ? 'translateX(420px) rotate(8deg)'
+        : 'translateX(-420px) rotate(-8deg)';
+      top.classList.add('gone');
+      remaining--;
+      updateState();
+    };
+    swiper.querySelectorAll('.swipe-btn').forEach(b => {
+      b.addEventListener('click', () => swipe(b.dataset.action));
+    });
+    // Stack the cards
+    cards.forEach(c => {
+      const i = parseInt(c.dataset.i, 10);
+      const offset = (cards.length - 1 - i) * 6;
+      c.style.transform = `translateY(${-offset}px) scale(${1 - offset * 0.012})`;
+      c.style.zIndex = i;
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
